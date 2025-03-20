@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminjetzt - Get Notified for Immigration Office Appointments</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom styles -->
+    <style>
+        /* Carousel fade transition */
+        .carousel-item {
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+        .carousel-item.active {
+            opacity: 1;
+            position: relative;
+        }
+        
+        /* FAQ accordion animation */
+        details summary {
+            cursor: pointer;
+        }
+        details[open] summary ~ * {
+            animation: sweep .5s ease-in-out;
+        }
+        @keyframes sweep {
+            0%    {opacity: 0; transform: translateY(-10px)}
+            100%  {opacity: 1; transform: translateY(0)}
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+    <!-- Header/Navigation Bar (Sticky) -->
+    <header class="bg-white shadow-sm fixed w-full top-0 z-50">
+        <div class="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center">
+                <div class="text-xl font-bold text-blue-600">Terminjetzt</div>
+                <!-- Navigation Menu -->
+                <nav>
+                    <!-- Desktop Menu -->
+                    <div class="hidden md:flex space-x-8">
+                        <a href="#hero" class="text-gray-700 hover:text-blue-600 transition duration-150">Home</a>
+                        <a href="#how-it-works" class="text-gray-700 hover:text-blue-600 transition duration-150">How It Works</a>
+                        <a href="#testimonials" class="text-gray-700 hover:text-blue-600 transition duration-150">Testimonials</a>
+                        <a href="#faq" class="text-gray-700 hover:text-blue-600 transition duration-150">FAQ</a>
+                        <a href="#contact" class="text-gray-700 hover:text-blue-600 transition duration-150">Contact</a>
+                    </div>
+                    
+                    <!-- Mobile Menu Button -->
+                    <div class="md:hidden">
+                        <button id="mobile-menu-button" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu" class="text-gray-700 hover:text-blue-600 focus:outline-none">
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+                        </button>
+                    </div>
+                </nav>
+            </div>
+            
+            <!-- Mobile Menu (Hidden by default) -->
+            <div id="mobile-menu" class="md:hidden hidden mt-4 pb-4">
+                <div class="flex flex-col space-y-4">
+                    <a href="#hero" class="text-gray-700 hover:text-blue-600 transition duration-150">Home</a>
+                    <a href="#how-it-works" class="text-gray-700 hover:text-blue-600 transition duration-150">How It Works</a>
+                    <a href="#testimonials" class="text-gray-700 hover:text-blue-600 transition duration-150">Testimonials</a>
+                    <a href="#faq" class="text-gray-700 hover:text-blue-600 transition duration-150">FAQ</a>
+                    <a href="#contact" class="text-gray-700 hover:text-blue-600 transition duration-150">Contact</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section (Above the Fold) -->
+        <section id="hero" class="bg-gradient-to-b from-white to-blue-50 py-12 sm:py-16 lg:py-20 mt-20">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="lg:flex lg:items-center lg:justify-between">
+                    <div class="lg:w-1/2 mb-10 lg:mb-0">
+                        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+                            Never Miss an Immigration Office Appointment Again
+                        </h1>
+                        <p class="mt-4 text-lg sm:text-xl text-gray-600">
+                            Tired of refreshing the website? We'll monitor appointment availability and notify you as soon as a slot opens up.
+                        </p>
+                        
+                        <!-- Email Form -->
+                        <div class="mt-8 sm:mt-10">
+                            <form id="notification-form" class="sm:flex" onsubmit="return validateForm(event)">
+                                <div class="relative flex-grow">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                                            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                                        </svg>
+                                    </div>
+                                    <input 
+                                        id="email-input"
+                                        type="email" 
+                                        name="email" 
+                                        required
+                                        class="py-3 px-4 pl-10 block w-full shadow-sm focus:ring-blue-500 focus:border-blue-500 border-gray-300 rounded-md"
+                                        placeholder="Your Email for Notifications"
+                                    >
+                                </div>
+                                <div class="mt-3 sm:mt-0 sm:ml-3">
+                                    <button 
+                                        type="submit" 
+                                        class="w-full flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-md transition duration-150 ease-in-out"
+                                    >
+                                        <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+                                        </svg>
+                                        Get Notified
+                                    </button>
+                                </div>
+                            </form>
+                            <p id="form-error" class="mt-2 text-sm text-red-600 hidden"></p>
+                            <p id="form-success" class="mt-2 text-sm text-green-600 hidden">Thank you! We'll notify you when appointments become available.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Hero Image -->
+                    <div class="lg:w-2/5">
+                        <div class="rounded-lg bg-blue-100 p-6 shadow-lg">
+                            <!-- Abstract illustration representing appointment notifications -->
+                            <svg class="w-full h-auto" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="50" y="50" width="300" height="200" rx="20" fill="#e6efff" />
+                                <circle cx="200" cy="150" r="80" fill="#c7dbff" />
+                                <path d="M160 150 L190 180 L240 130" stroke="#4285f4" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+                                <rect x="120" y="80" width="160" height="20" rx="5" fill="#4285f4" opacity="0.3" />
+                                <rect x="120" y="110" width="120" height="15" rx="5" fill="#4285f4" opacity="0.3" />
+                                <rect x="120" y="200" width="80" height="15" rx="5" fill="#4285f4" opacity="0.3" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section id="how-it-works" class="py-12 sm:py-16 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-12">How Terminjetzt Works</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Step 1 -->
+                    <div class="bg-blue-50 rounded-lg p-6 text-center shadow-sm hover:shadow-md transition duration-300">
+                        <div class="inline-flex items-center justify-center h-16 w-16 rounded-full bg-blue-100 text-blue-600 mb-4">
+                            <svg class="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Enter Your Email</h3>
+                        <p class="text-gray-600">Provide your email address in the form above.</p>
+                    </div>
+                    
+                    <!-- Step 2 -->
+                    <div class="bg-blue-50 rounded-lg p-6 text-center shadow-sm hover:shadow-md transition duration-300">
+                        <div class="inline-flex items-center justify-center h-16 w-16 rounded-full bg-blue-100 text-blue-600 mb-4">
+                            <svg class="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">We Monitor Availability</h3>
+                        <p class="text-gray-600">Our system continuously checks the immigration office website.</p>
+                    </div>
+                    
+                    <!-- Step 3 -->
+                    <div class="bg-blue-50 rounded-lg p-6 text-center shadow-sm hover:shadow-md transition duration-300">
+                        <div class="inline-flex items-center justify-center h-16 w-16 rounded-full bg-blue-100 text-blue-600 mb-4">
+                            <svg class="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">Get Instant Alerts</h3>
+                        <p class="text-gray-600">We'll send you an email the moment an appointment becomes available.</p>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-10">
+                    <p class="text-lg font-medium text-gray-900">It's that easy! No more constant refreshing or checking.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section (Carousel) -->
+        <section id="testimonials" class="py-12 sm:py-16 bg-gray-50">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-8">What Our Users Are Saying</h2>
+                
+                <!-- Testimonial Carousel -->
+                <div class="max-w-3xl mx-auto relative">
+                    <div id="testimonial-carousel" class="bg-white rounded-lg shadow-md p-6 sm:p-8 overflow-hidden" style="min-height: 250px;">
+                        <!-- Testimonial 1 -->
+                        <div class="carousel-item active">
+                            <div class="flex flex-col sm:flex-row items-center sm:items-start">
+                                <div class="w-16 h-16 rounded-full bg-blue-100 flex-shrink-0 overflow-hidden mb-4 sm:mb-0 sm:mr-6">
+                                    <!-- Avatar placeholder -->
+                                    <svg class="w-full h-full text-blue-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-gray-600 italic mb-4">"After weeks of trying to get an appointment, I signed up for Terminjetzt. Within 3 days I received a notification about an available slot and secured my appointment. This service saved me so much time and frustration!"</p>
+                                    <div class="font-medium text-gray-900">- Sarah K., Berlin</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Testimonial 2 -->
+                        <div class="carousel-item">
+                            <div class="flex flex-col sm:flex-row items-center sm:items-start">
+                                <div class="w-16 h-16 rounded-full bg-green-100 flex-shrink-0 overflow-hidden mb-4 sm:mb-0 sm:mr-6">
+                                    <!-- Avatar placeholder -->
+                                    <svg class="w-full h-full text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-gray-600 italic mb-4">"I was skeptical at first, but Terminjetzt delivered exactly what it promised. I got notified about an available appointment within a week, and the process was seamless. I've recommended it to all my expat friends!"</p>
+                                    <div class="font-medium text-gray-900">- Michael T., Munich</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Testimonial 3 -->
+                        <div class="carousel-item">
+                            <div class="flex flex-col sm:flex-row items-center sm:items-start">
+                                <div class="w-16 h-16 rounded-full bg-purple-100 flex-shrink-0 overflow-hidden mb-4 sm:mb-0 sm:mr-6">
+                                    <!-- Avatar placeholder -->
+                                    <svg class="w-full h-full text-purple-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-gray-600 italic mb-4">"As a busy professional, I didn't have time to constantly check for appointment slots. Terminjetzt did the work for me and notified me immediately when a slot opened up. The service is worth every penny!"</p>
+                                    <div class="font-medium text-gray-900">- Elena R., Hamburg</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Carousel Controls -->
+                    <div class="flex justify-between mt-4">
+                        <button id="prev-testimonial" class="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 focus:outline-none">
+                            <svg class="h-6 w-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <button id="next-testimonial" class="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 focus:outline-none">
+                            <svg class="h-6 w-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <p class="mt-8 text-lg text-center text-gray-600">Join hundreds of others already using Terminjetzt to secure their immigration appointments.</p>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="py-12 sm:py-16 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-8">Frequently Asked Questions</h2>
+                
+                <div class="max-w-3xl mx-auto space-y-4">
+                    <!-- FAQ Item 1 -->
+                    <details class="bg-gray-50 rounded-lg p-4 shadow-sm">
+                        <summary class="font-medium text-lg text-gray-900 cursor-pointer">How does Terminjetzt work?</summary>
+                        <div class="mt-4 text-gray-600">
+                            <p>Terminjetzt uses automated monitoring technology to continuously check immigration office websites for appointment availability. When a slot becomes available, our system immediately sends a notification to your email address. This allows you to quickly access the website and book your appointment before someone else does.</p>
+                        </div>
+                    </details>
+                    
+                    <!-- FAQ Item 2 -->
+                    <details class="bg-gray-50 rounded-lg p-4 shadow-sm">
+                        <summary class="font-medium text-lg text-gray-900 cursor-pointer">Is Terminjetzt free to use?</summary>
+                        <div class="mt-4 text-gray-600">
+                            <p>Yes, Terminjetzt is currently free to use during our beta phase. We may introduce premium features in the future, but our basic notification service will always remain free for users who need help securing immigration appointments.</p>
+                        </div>
+                    </details>
+                    
+                    <!-- FAQ Item 3 -->
+                    <details class="bg-gray-50 rounded-lg p-4 shadow-sm">
+                        <summary class="font-medium text-lg text-gray-900 cursor-pointer">How quickly will I receive a notification?</summary>
+                        <div class="mt-4 text-gray-600">
+                            <p>Our system checks for appointment availability every few minutes. Once an appointment slot is detected, you'll receive an email notification within seconds. The speed of delivery depends on your email provider, but most users receive notifications almost instantly.</p>
+                        </div>
+                    </details>
+                    
+                    <!-- FAQ Item 4 -->
+                    <details class="bg-gray-50 rounded-lg p-4 shadow-sm">
+                        <summary class="font-medium text-lg text-gray-900 cursor-pointer">What if I don't get a notification?</summary>
+                        <div class="mt-4 text-gray-600">
+                            <p>If you haven't received a notification, it means no appointment slots have become available yet. Immigration office appointments can be very competitive, and it might take some time before a slot opens up. Rest assured that our system is continuously monitoring, and you'll be notified as soon as an appointment becomes available.</p>
+                            <p class="mt-2">If you're concerned that the system isn't working properly, you can check your spam folder or contact our support team for assistance.</p>
+                        </div>
+                    </details>
+                    
+                    <!-- FAQ Item 5 -->
+                    <details class="bg-gray-50 rounded-lg p-4 shadow-sm">
+                        <summary class="font-medium text-lg text-gray-900 cursor-pointer">What happens to my email address?</summary>
+                        <div class="mt-4 text-gray-600">
+                            <p>We take your privacy seriously. Your email address is only used to send you appointment notifications and essential service updates. We will never sell or share your email address with third parties. You can unsubscribe from our service at any time, and your data will be deleted from our system.</p>
+                            <p class="mt-2">For more information, please refer to our Privacy Policy.</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Form Section -->
+        <section id="contact" class="py-12 sm:py-16 bg-gray-50">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-8">Contact Us</h2>
+                
+                <div class="max-w-lg mx-auto">
+                    <form id="contact-form" class="bg-white rounded-lg shadow-md p-6 sm:p-8" onsubmit="return handleContactForm(event)">
+                        <!-- Name Field -->
+                        <div class="mb-4">
+                            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                            <input 
+                                type="text" 
+                                id="name" 
+                                name="name" 
+                                required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="Your name"
+                            >
+                        </div>
+                        
+                        <!-- Email Field -->
+                        <div class="mb-4">
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                name="email" 
+                                required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="Your email address"
+                            >
+                        </div>
+                        
+                        <!-- Message Field -->
+                        <div class="mb-6">
+                            <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                            <textarea 
+                                id="message" 
+                                name="message" 
+                                rows="4" 
+                                required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="Your message"
+                            ></textarea>
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <div>
+                            <button 
+                                type="submit" 
+                                class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                            >
+                                Send Message
+                            </button>
+                        </div>
+                        
+                        <!-- Form Messages -->
+                        <p id="contact-form-error" class="mt-2 text-sm text-red-600 hidden"></p>
+                        <p id="contact-form-success" class="mt-2 text-sm text-green-600 hidden">Thank you for your message! Form submission functionality will be added later.</p>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="md:flex md:justify-between">
+                <div class="mb-6 md:mb-0">
+                    <div class="flex items-center">
+                        <div class="text-xl font-bold text-white">Terminjetzt</div>
+                    </div>
+                    <p class="mt-2 text-sm text-gray-400">Get notified when immigration appointments become available.</p>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-8 sm:grid-cols-3">
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-300 uppercase tracking-wider">Legal</h3>
+                        <ul class="mt-4 space-y-2">
+                            <li>
+                                <a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a>
+                            </li>
+                            <li>
+                                <a href="#" class="text-gray-400 hover:text-white">Terms of Service</a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-300 uppercase tracking-wider">Company</h3>
+                        <ul class="mt-4 space-y-2">
+                            <li>
+                                <a href="#" class="text-gray-400 hover:text-white">About</a>
+                            </li>
+                            <li>
+                                <a href="#contact" class="text-gray-400 hover:text-white">Contact</a>
+                            </li>
+                            <li>
+                                <a href="#" class="text-gray-400 hover:text-white">Imprint</a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-300 uppercase tracking-wider">Resources</h3>
+                        <ul class="mt-4 space-y-2">
+                            <li>
+                                <a href="#faq" class="text-gray-400 hover:text-white">FAQ</a>
+                            </li>
+                            <li>
+                                <a href="#testimonials" class="text-gray-400 hover:text-white">Testimonials</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 border-t border-gray-700 pt-8 md:flex md:items-center md:justify-between">
+                <div class="flex space-x-6 md:order-2">
+                    <!-- Social media links could be added here -->
+                </div>
+                <p class="mt-8 text-base text-gray-400 md:mt-0 md:order-1">
+                    &copy; 2025 Terminjetzt. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Form validation script for notification form
+        function validateForm(event) {
+            event.preventDefault();
+            
+            const emailInput = document.getElementById('email-input');
+            const formError = document.getElementById('form-error');
+            const formSuccess = document.getElementById('form-success');
+            
+            // Reset messages
+            formError.classList.add('hidden');
+            formSuccess.classList.add('hidden');
+            
+            // Simple email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(emailInput.value)) {
+                formError.textContent = 'Please enter a valid email address.';
+                formError.classList.remove('hidden');
+                return false;
+            }
+            
+            // If validation passes, show success message
+            formSuccess.classList.remove('hidden');
+            emailInput.value = ''; // Clear the input
+            
+            // In a real application, you would send the email to your server here
+            
+            return false; // Prevent form submission
+        }
+        
+        // Contact form handling
+        function handleContactForm(event) {
+            event.preventDefault();
+            
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const messageInput = document.getElementById('message');
+            const formError = document.getElementById('contact-form-error');
+            const formSuccess = document.getElementById('contact-form-success');
+            
+            // Reset messages
+            formError.classList.add('hidden');
+            formSuccess.classList.add('hidden');
+            
+            // Simple validation
+            if (!nameInput.value.trim()) {
+                formError.textContent = 'Please enter your name.';
+                formError.classList.remove('hidden');
+                return false;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(emailInput.value)) {
+                formError.textContent = 'Please enter a valid email address.';
+                formError.classList.remove('hidden');
+                return false;
+            }
+            
+            if (!messageInput.value.trim()) {
+                formError.textContent = 'Please enter a message.';
+                formError.classList.remove('hidden');
+                return false;
+            }
+            
+            // If validation passes, show success message
+            formSuccess.classList.remove('hidden');
+            
+            // Clear the form
+            nameInput.value = '';
+            emailInput.value = '';
+            messageInput.value = '';
+            
+            return false; // Prevent form submission
+        }
+        
+        // Testimonial carousel functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const carouselItems = document.querySelectorAll('.carousel-item');
+            const prevButton = document.getElementById('prev-testimonial');
+            const nextButton = document.getElementById('next-testimonial');
+            let currentIndex = 0;
+            let intervalId;
+            
+            // Function to show a specific testimonial
+            function showTestimonial(index) {
+                // Hide all testimonials
+                carouselItems.forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // Show the selected testimonial
+                carouselItems[index].classList.add('active');
+                currentIndex = index;
+            }
+            
+            // Function to show the next testimonial
+            function showNextTestimonial() {
+                let nextIndex = currentIndex + 1;
+                if (nextIndex >= carouselItems.length) {
+                    nextIndex = 0;
+                }
+                showTestimonial(nextIndex);
+            }
+            
+            // Function to show the previous testimonial
+            function showPrevTestimonial() {
+                let prevIndex = currentIndex - 1;
+                if (prevIndex < 0) {
+                    prevIndex = carouselItems.length - 1;
+                }
+                showTestimonial(prevIndex);
+            }
+            
+            // Set up event listeners for the buttons
+            nextButton.addEventListener('click', function() {
+                showNextTestimonial();
+                resetCarouselInterval();
+            });
+            
+            prevButton.addEventListener('click', function() {
+                showPrevTestimonial();
+                resetCarouselInterval();
+            });
+            
+            // Function to start the automatic rotation
+            function startCarouselInterval() {
+                intervalId = setInterval(showNextTestimonial, 5000); // Change testimonial every 5 seconds
+            }
+            
+            // Function to reset the interval (used when manually navigating)
+            function resetCarouselInterval() {
+                clearInterval(intervalId);
+                startCarouselInterval();
+            }
+            
+            // Initialize the carousel
+            showTestimonial(0);
+            startCarouselInterval();
+        });
+        
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            mobileMenuButton.addEventListener('click', function() {
+                // Toggle menu visibility
+                const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+                mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
+                
+                // Toggle menu display
+                if (mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.remove('hidden');
+                } else {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+            
+            // Close mobile menu when clicking on a link
+            const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenuButton.setAttribute('aria-expanded', 'false');
+                });
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    // Offset for fixed header
+                    const headerHeight = document.querySelector('header').offsetHeight;
+                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
